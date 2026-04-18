@@ -194,7 +194,7 @@ function AnimDashboardReveal({ template }: { template: AdTemplate }) {
         </div>
 
         {phase === 1 && (
-          <div style={{ opacity: 1, transform: 'none', transition: 'opacity 0.4s ease, transform 0.4s ease', background: `${template.accentColor}12`, border: `1px solid ${template.accentColor}30`, borderRadius: 12, padding: '12px 14px' }}>
+          <div style={{ animation: 'fadeUp 0.4s ease', background: `${template.accentColor}12`, border: `1px solid ${template.accentColor}30`, borderRadius: 12, padding: '12px 14px' }}>
             <div style={{ fontSize: 12, color: template.accentColor, fontWeight: 700 }}>📈 +9.9% vs last month</div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 3 }}>156 visits this month · 18 today</div>
           </div>
@@ -202,6 +202,7 @@ function AnimDashboardReveal({ template }: { template: AdTemplate }) {
       </div>
 
       <CTAButton text={template.cta} accent={template.accentColor} />
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -209,32 +210,16 @@ function AnimDashboardReveal({ template }: { template: AdTemplate }) {
 // App intro — screens slide in sequence
 function AnimAppIntro({ template }: { template: AdTemplate }) {
   const [phase, setPhase] = useState(0);
-  const [visible, setVisible] = useState(true);
   const screens = [
     { label: 'Welcome', desc: 'The loyalty app for local life', icon: '✦' },
     { label: 'Discover', desc: 'Top-rated spots near you', icon: '📍' },
     { label: 'Wallet', desc: '3 cards · 27 stamps collected', icon: '💳' },
     { label: 'Dashboard', desc: '247 customers · 75% repeat', icon: '📊' },
   ];
-
   useEffect(() => {
-    const fadeOut = setTimeout(() => setVisible(false), 1400);
-    return () => clearTimeout(fadeOut);
-  }, [phase]);
-
-  useEffect(() => {
-    if (visible) return;
-    const advance = setTimeout(() => setPhase(p => (p + 1) % screens.length), 420);
-    return () => clearTimeout(advance);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
-  }, [phase]);
+    const t = setInterval(() => setPhase(p => (p + 1) % screens.length), 1800);
+    return () => clearInterval(t);
+  }, [screens.length]);
   const s = screens[phase];
   return (
     <div style={{ width: '100%', height: '100%', background: '#0a0a0a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '10%' }}>
@@ -242,7 +227,7 @@ function AnimAppIntro({ template }: { template: AdTemplate }) {
       <div style={{ position: 'absolute', top: 24, left: 24 }}><Logo accent={template.accentColor} /></div>
       <Badge text="NOW LIVE" accent={template.accentColor} />
 
-      <div style={{ textAlign: 'center', margin: '24px 0', opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(12px) scale(0.95)', transition: 'opacity 0.35s ease, transform 0.35s ease' }}>
+      <div key={phase} style={{ textAlign: 'center', margin: '24px 0', animation: 'screenIn 0.4s cubic-bezier(0.34,1.56,0.64,1)' }}>
         <div style={{ fontSize: 52, marginBottom: 12 }}>{s.icon}</div>
         <div style={{ fontSize: 28, fontWeight: 900, color: '#fff', letterSpacing: -0.8, lineHeight: 1.1 }}>{s.label}</div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 8 }}>{s.desc}</div>
@@ -256,6 +241,7 @@ function AnimAppIntro({ template }: { template: AdTemplate }) {
       </div>
 
       <CTAButton text={template.cta} accent={template.accentColor} />
+      <style>{`@keyframes screenIn{from{opacity:0;transform:scale(0.85) translateY(12px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -263,24 +249,9 @@ function AnimAppIntro({ template }: { template: AdTemplate }) {
 // Problem → Solution split
 function AnimProblemSolution({ template }: { template: AdTemplate }) {
   const [phase, setPhase] = useState(0);
-  const [visible, setVisible] = useState(true);
-
   useEffect(() => {
-    const fadeOut = setTimeout(() => setVisible(false), 2400);
-    return () => clearTimeout(fadeOut);
-  }, [phase]);
-
-  useEffect(() => {
-    if (visible) return;
-    const advance = setTimeout(() => setPhase(p => (p + 1) % 2), 420);
-    return () => clearTimeout(advance);
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
+    const t = setTimeout(() => setPhase(p => (p + 1) % 2), phase === 0 ? 2800 : 2800);
+    return () => clearTimeout(t);
   }, [phase]);
   return (
     <div style={{ width: '100%', height: '100%', background: '#0a0a0a', position: 'relative', overflow: 'hidden' }}>
@@ -289,21 +260,21 @@ function AnimProblemSolution({ template }: { template: AdTemplate }) {
         <div style={{ position: 'absolute', top: 24, left: 24 }}>
           <Logo accent={template.accentColor} dark={phase === 0} />
         </div>
-        <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(14px)', transition: 'opacity 0.4s ease, transform 0.4s ease' }}>
-          {phase === 0 ? (
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: 16 }}>The Problem</div>
-              <div style={{ fontSize: 'clamp(26px, 7vw, 48px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, letterSpacing: -1 }}>Paper cards<br />get lost.<br /><span style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through' }}>Customers forget.</span></div>
-            </div>
-          ) : (
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, color: 'rgba(0,0,0,0.4)', textTransform: 'uppercase', marginBottom: 16 }}>The Solution</div>
-              <div style={{ fontSize: 'clamp(26px, 7vw, 48px)', fontWeight: 900, color: '#000', lineHeight: 1.1, letterSpacing: -1 }}>ClientIn.<br />Loyalty that<br />actually works.</div>
-              <div style={{ marginTop: 24 }}><CTAButton text={template.cta} accent="#000" /></div>
-            </div>
-          )}
-        </div>
+
+        {phase === 0 ? (
+          <div key="problem" style={{ animation: 'fadeUp 0.5s ease' }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: 16 }}>The Problem</div>
+            <div style={{ fontSize: 'clamp(26px, 7vw, 48px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, letterSpacing: -1 }}>Paper cards<br />get lost.<br /><span style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through' }}>Customers forget.</span></div>
+          </div>
+        ) : (
+          <div key="solution" style={{ animation: 'fadeUp 0.5s ease' }}>
+            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 3, color: 'rgba(0,0,0,0.4)', textTransform: 'uppercase', marginBottom: 16 }}>The Solution</div>
+            <div style={{ fontSize: 'clamp(26px, 7vw, 48px)', fontWeight: 900, color: '#000', lineHeight: 1.1, letterSpacing: -1 }}>ClientIn.<br />Loyalty that<br />actually works.</div>
+            <div style={{ marginTop: 24 }}><CTAButton text={template.cta} accent="#000" /></div>
+          </div>
+        )}
       </div>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -318,35 +289,15 @@ function AnimFounderStory({ template }: { template: AdTemplate }) {
     'ClientIn. Free to start. Takes 10 minutes.',
   ];
   const [idx, setIdx] = useState(0);
-  const [visible, setVisible] = useState(true);
-
   useEffect(() => {
-    const fadeOut = setTimeout(() => setVisible(false), 2000);
-    return () => clearTimeout(fadeOut);
-  }, [idx]);
-
-  useEffect(() => {
-    if (visible) return;
-    const advance = setTimeout(() => {
-      setIdx(i => (i + 1) % lines.length);
-    }, 420);
-    return () => clearTimeout(advance);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idx]);
-
+    const t = setTimeout(() => setIdx(i => (i + 1) % lines.length), 2400);
+    return () => clearTimeout(t);
+  }, [idx, lines.length]);
   return (
     <div style={{ width: '100%', height: '100%', background: '#070707', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10%', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', bottom: '-20%', left: '-10%', width: '60%', height: '60%', background: template.accentColor, filter: 'blur(90px)', opacity: 0.09, borderRadius: '50%' }} />
       <Logo accent={template.accentColor} />
-      <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(10px)', transition: 'opacity 0.4s ease, transform 0.4s ease' }}>
+      <div key={idx} style={{ animation: 'fadeUp 0.45s ease' }}>
         <div style={{ width: 36, height: 3, background: template.accentColor, borderRadius: 2, marginBottom: 24 }} />
         <div style={{ fontSize: 'clamp(22px, 5.5vw, 36px)', fontWeight: 800, color: '#fff', lineHeight: 1.25, letterSpacing: -0.5, fontStyle: idx < 4 ? 'italic' : 'normal' }}>
           {idx < 4 ? `"${lines[idx]}"` : lines[idx]}
@@ -355,6 +306,7 @@ function AnimFounderStory({ template }: { template: AdTemplate }) {
       <div style={{ display: 'flex', gap: 5 }}>
         {lines.map((_, i) => <div key={i} style={{ height: 3, flex: i === idx ? 2 : 1, borderRadius: 2, background: i === idx ? template.accentColor : 'rgba(255,255,255,0.1)', transition: 'all 0.3s ease' }} />)}
       </div>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -387,7 +339,7 @@ function AnimInsightsGraph({ template }: { template: AdTemplate }) {
       </div>
 
       {showStat && (
-        <div style={{ marginBottom: 12 }}>
+        <div style={{ animation: 'fadeUp 0.4s ease', marginBottom: 12 }}>
           <div style={{ fontSize: 36, fontWeight: 900, color: template.accentColor, letterSpacing: -1, lineHeight: 1 }}>+9.9%</div>
           <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>visits vs last month</div>
         </div>
@@ -495,12 +447,12 @@ function AnimPaperCardPain({ template }: { template: AdTemplate }) {
         {/* Phase overlays */}
         <div style={{ height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {phase === 1 && (
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)', fontStyle: 'italic' }}>
+            <div style={{ animation: 'slFadeUp 0.4s ease', fontSize: 13, color: 'rgba(255,255,255,0.25)', fontStyle: 'italic' }}>
               ...went through the wash. 🗑️
             </div>
           )}
           {phase === 2 && (
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ animation: 'slFadeUp 0.4s ease', textAlign: 'center' }}>
               <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', letterSpacing: -0.5, lineHeight: 1.2 }}>How many this year?</div>
               <div style={{ fontSize: 11, color: template.accentColor, marginTop: 6, fontWeight: 600, letterSpacing: 0.5 }}>Something&#39;s coming. 👀</div>
             </div>
@@ -509,6 +461,7 @@ function AnimPaperCardPain({ template }: { template: AdTemplate }) {
       </div>
 
       <CTAButton text={template.cta} accent={template.accentColor} />
+      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -549,7 +502,7 @@ function AnimAppTeaser({ template }: { template: AdTemplate }) {
       </div>
 
       {phase !== 1 && (
-        <div style={{ textAlign: 'center' }}>
+        <div key={phase} style={{ textAlign: 'center', animation: 'slFadeUp 0.5s ease' }}>
           {phase === 0 ? (
             <>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', marginBottom: 12 }}>6 months of work</div>
@@ -563,6 +516,8 @@ function AnimAppTeaser({ template }: { template: AdTemplate }) {
           )}
         </div>
       )}
+
+      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -577,39 +532,17 @@ function AnimFounderPreLaunch({ template }: { template: AdTemplate }) {
     'That gap felt wrong.\n\nSo we built something.',
   ];
   const [idx, setIdx] = useState(0);
-  const [visible, setVisible] = useState(true);
-
   useEffect(() => {
-    // Phase 1: fade out after 3600ms
-    const fadeOut = setTimeout(() => setVisible(false), 3600);
-    return () => clearTimeout(fadeOut);
-  }, [idx]);
-
-  useEffect(() => {
-    if (visible) return;
-    // Phase 2: once faded out, wait for transition then advance index
-    const advance = setTimeout(() => {
-      setIdx(i => (i + 1) % lines.length);
-    }, 420); // slightly longer than the 0.4s transition
-    return () => clearTimeout(advance);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  // Phase 3: fade back in once idx changes
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idx]);
+    const t = setTimeout(() => setIdx(i => (i + 1) % lines.length), 4000);
+    return () => clearTimeout(t);
+  }, [idx, lines.length]);
 
   return (
     <div style={{ width: '100%', height: '100%', background: '#070707', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10%', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', bottom: '-20%', left: '-10%', width: '60%', height: '60%', background: template.accentColor, filter: 'blur(90px)', opacity: 0.08, borderRadius: '50%' }} />
       <Logo accent={template.accentColor} />
 
-      <div style={{ opacity: visible ? 1 : 0, transform: visible ? 'none' : 'translateY(10px)', transition: 'opacity 0.4s ease, transform 0.4s ease' }}>
+      <div key={idx} style={{ animation: 'slFadeUp 0.45s ease' }}>
         <div style={{ width: 36, height: 3, background: template.accentColor, borderRadius: 2, marginBottom: 22 }} />
         <div style={{ fontSize: 'clamp(20px, 5vw, 32px)', fontWeight: 800, color: '#fff', lineHeight: 1.3, letterSpacing: -0.4, whiteSpace: 'pre-line', fontStyle: 'italic' }}>
           &quot;{lines[idx]}&quot;
@@ -622,6 +555,7 @@ function AnimFounderPreLaunch({ template }: { template: AdTemplate }) {
         </div>
         <CTAButton text={template.cta} accent={template.accentColor} />
       </div>
+      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -669,7 +603,7 @@ function AnimBetaProof({ template }: { template: AdTemplate }) {
         </div>
 
         {phase === 1 && (
-          <div style={{ background: `${template.accentColor}10`, border: `1px solid ${template.accentColor}25`, borderRadius: 12, padding: '12px 14px' }}>
+          <div style={{ animation: 'slFadeUp 0.4s ease', background: `${template.accentColor}10`, border: `1px solid ${template.accentColor}25`, borderRadius: 12, padding: '12px 14px' }}>
             <div style={{ fontSize: 12, color: template.accentColor, fontWeight: 700 }}>📈 Free to start · Set up in 10 min</div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 3 }}>Coming soon · Follow to be first</div>
           </div>

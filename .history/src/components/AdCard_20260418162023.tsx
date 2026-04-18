@@ -216,24 +216,11 @@ function AnimAppIntro({ template }: { template: AdTemplate }) {
     { label: 'Wallet', desc: '3 cards · 27 stamps collected', icon: '💳' },
     { label: 'Dashboard', desc: '247 customers · 75% repeat', icon: '📊' },
   ];
-
   useEffect(() => {
     const fadeOut = setTimeout(() => setVisible(false), 1400);
-    return () => clearTimeout(fadeOut);
-  }, [phase]);
-
-  useEffect(() => {
-    if (visible) return;
-    const advance = setTimeout(() => setPhase(p => (p + 1) % screens.length), 420);
-    return () => clearTimeout(advance);
+    const advance = setTimeout(() => { setPhase(p => (p + 1) % screens.length); setVisible(true); }, 1800);
+    return () => { clearTimeout(fadeOut); clearTimeout(advance); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
   }, [phase]);
   const s = screens[phase];
   return (
@@ -264,23 +251,10 @@ function AnimAppIntro({ template }: { template: AdTemplate }) {
 function AnimProblemSolution({ template }: { template: AdTemplate }) {
   const [phase, setPhase] = useState(0);
   const [visible, setVisible] = useState(true);
-
   useEffect(() => {
     const fadeOut = setTimeout(() => setVisible(false), 2400);
-    return () => clearTimeout(fadeOut);
-  }, [phase]);
-
-  useEffect(() => {
-    if (visible) return;
-    const advance = setTimeout(() => setPhase(p => (p + 1) % 2), 420);
-    return () => clearTimeout(advance);
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
+    const advance = setTimeout(() => { setPhase(p => (p + 1) % 2); setVisible(true); }, 2800);
+    return () => { clearTimeout(fadeOut); clearTimeout(advance); };
   }, [phase]);
   return (
     <div style={{ width: '100%', height: '100%', background: '#0a0a0a', position: 'relative', overflow: 'hidden' }}>
@@ -322,23 +296,11 @@ function AnimFounderStory({ template }: { template: AdTemplate }) {
 
   useEffect(() => {
     const fadeOut = setTimeout(() => setVisible(false), 2000);
-    return () => clearTimeout(fadeOut);
-  }, [idx]);
-
-  useEffect(() => {
-    if (visible) return;
     const advance = setTimeout(() => {
       setIdx(i => (i + 1) % lines.length);
-    }, 420);
-    return () => clearTimeout(advance);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
+      setVisible(true);
+    }, 2400);
+    return () => { clearTimeout(fadeOut); clearTimeout(advance); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx]);
 
@@ -495,12 +457,12 @@ function AnimPaperCardPain({ template }: { template: AdTemplate }) {
         {/* Phase overlays */}
         <div style={{ height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {phase === 1 && (
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)', fontStyle: 'italic' }}>
+            <div style={{ animation: 'slFadeUp 0.4s ease', fontSize: 13, color: 'rgba(255,255,255,0.25)', fontStyle: 'italic' }}>
               ...went through the wash. 🗑️
             </div>
           )}
           {phase === 2 && (
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ animation: 'slFadeUp 0.4s ease', textAlign: 'center' }}>
               <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', letterSpacing: -0.5, lineHeight: 1.2 }}>How many this year?</div>
               <div style={{ fontSize: 11, color: template.accentColor, marginTop: 6, fontWeight: 600, letterSpacing: 0.5 }}>Something&#39;s coming. 👀</div>
             </div>
@@ -509,6 +471,7 @@ function AnimPaperCardPain({ template }: { template: AdTemplate }) {
       </div>
 
       <CTAButton text={template.cta} accent={template.accentColor} />
+      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -549,7 +512,7 @@ function AnimAppTeaser({ template }: { template: AdTemplate }) {
       </div>
 
       {phase !== 1 && (
-        <div style={{ textAlign: 'center' }}>
+        <div key={phase} style={{ textAlign: 'center', animation: 'slFadeUp 0.5s ease' }}>
           {phase === 0 ? (
             <>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', marginBottom: 12 }}>6 months of work</div>
@@ -563,6 +526,8 @@ function AnimAppTeaser({ template }: { template: AdTemplate }) {
           )}
         </div>
       )}
+
+      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
     </div>
   );
 }
@@ -580,27 +545,12 @@ function AnimFounderPreLaunch({ template }: { template: AdTemplate }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // Phase 1: fade out after 3600ms
     const fadeOut = setTimeout(() => setVisible(false), 3600);
-    return () => clearTimeout(fadeOut);
-  }, [idx]);
-
-  useEffect(() => {
-    if (visible) return;
-    // Phase 2: once faded out, wait for transition then advance index
     const advance = setTimeout(() => {
       setIdx(i => (i + 1) % lines.length);
-    }, 420); // slightly longer than the 0.4s transition
-    return () => clearTimeout(advance);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  // Phase 3: fade back in once idx changes
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
+      setVisible(true);
+    }, 4000);
+    return () => { clearTimeout(fadeOut); clearTimeout(advance); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx]);
 
@@ -669,7 +619,7 @@ function AnimBetaProof({ template }: { template: AdTemplate }) {
         </div>
 
         {phase === 1 && (
-          <div style={{ background: `${template.accentColor}10`, border: `1px solid ${template.accentColor}25`, borderRadius: 12, padding: '12px 14px' }}>
+          <div style={{ animation: 'slFadeUp 0.4s ease', background: `${template.accentColor}10`, border: `1px solid ${template.accentColor}25`, borderRadius: 12, padding: '12px 14px' }}>
             <div style={{ fontSize: 12, color: template.accentColor, fontWeight: 700 }}>📈 Free to start · Set up in 10 min</div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 3 }}>Coming soon · Follow to be first</div>
           </div>

@@ -216,24 +216,11 @@ function AnimAppIntro({ template }: { template: AdTemplate }) {
     { label: 'Wallet', desc: '3 cards · 27 stamps collected', icon: '💳' },
     { label: 'Dashboard', desc: '247 customers · 75% repeat', icon: '📊' },
   ];
-
   useEffect(() => {
     const fadeOut = setTimeout(() => setVisible(false), 1400);
-    return () => clearTimeout(fadeOut);
-  }, [phase]);
-
-  useEffect(() => {
-    if (visible) return;
-    const advance = setTimeout(() => setPhase(p => (p + 1) % screens.length), 420);
-    return () => clearTimeout(advance);
+    const advance = setTimeout(() => { setPhase(p => (p + 1) % screens.length); setVisible(true); }, 1800);
+    return () => { clearTimeout(fadeOut); clearTimeout(advance); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) {
-      const fadeIn = setTimeout(() => setVisible(true), 50);
-      return () => clearTimeout(fadeIn);
-    }
   }, [phase]);
   const s = screens[phase];
   return (
