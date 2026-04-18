@@ -448,6 +448,13 @@ export default function AdCard({ template }: Props) {
     a.click();
   };
 
+  const downloadPhone = async () => {
+    if (!adRef.current) return;
+    setExporting(true);
+    try { await exportWithPhoneFrame(adRef.current, `clientin-${template.id}-phone.png`); }
+    finally { setExporting(false); }
+  };
+
   const copyCaption = async () => {
     await navigator.clipboard.writeText(template.caption);
     setCopied(true);
@@ -534,13 +541,21 @@ export default function AdCard({ template }: Props) {
                 </button>
 
                 {/* Download flat PNG */}
-                <button onClick={downloadFlat}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition-all flex-1">
-                  <Download size={11} /> PNG
+                <button onClick={downloadFlat} disabled={exporting}
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition-all disabled:opacity-60 flex-1">
+                  <Download size={11} /> {exporting ? '…' : 'PNG'}
                 </button>
               </>
             )}
           </div>
+
+          {/* Phone frame export — always visible row (important on mobile where hover doesn't exist) */}
+          {!isAnimation && (
+            <button onClick={downloadPhone} disabled={exporting}
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/4 border border-white/8 text-white/40 hover:text-white hover:bg-white/8 text-xs font-semibold transition-all disabled:opacity-50">
+              📱 <span>Phone mockup export</span>
+            </button>
+          )}
         </div>
       </div>
     </>

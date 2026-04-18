@@ -13,6 +13,109 @@ const PLATFORM_COLORS: Record<string, string> = {
 
 interface Props { template: AdTemplate }
 
+// ─── Phone mockup canvas export ───────────────────────────────────────────────
+async function exportWithPhoneFrame(adEl: HTMLElement, filename: string) {
+  const { toPng } = await import('html-to-image');
+  const adDataUrl = await toPng(adEl, { pixelRatio: 3, cacheBust: true, backgroundColor: '#0a0a0a' });
+
+  const SCALE = 3;
+  const W = 390 * SCALE;
+  const H = 844 * SCALE;
+  const canvas = document.createElement('canvas');
+  canvas.width = W + 40 * SCALE;
+  canvas.height = H + 40 * SCALE;
+  const ctx = canvas.getContext('2d')!;
+
+  const OX = 20 * SCALE, OY = 20 * SCALE;
+
+  // Drop shadow
+  ctx.shadowColor = 'rgba(0,0,0,0.55)';
+  ctx.shadowBlur = 40 * SCALE;
+  ctx.shadowOffsetY = 10 * SCALE;
+
+  // Outer body
+  const r = 52 * SCALE;
+  rrPath(ctx, OX, OY, W, H, r);
+  ctx.fillStyle = '#1c1c1e';
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+
+  // Screen inset
+  const sx = OX + 10 * SCALE, sy = OY + 10 * SCALE;
+  const sw = W - 20 * SCALE, sh = H - 20 * SCALE;
+  const sr = 44 * SCALE;
+
+  // Ad image clipped to screen
+  const img = await loadImg(adDataUrl);
+  ctx.save();
+  rrPath(ctx, sx, sy, sw, sh, sr);
+  ctx.clip();
+  ctx.drawImage(img, sx, sy, sw, sh);
+  ctx.restore();
+
+  // Screen bezel line
+  ctx.save();
+  rrPath(ctx, sx, sy, sw, sh, sr);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
+
+  // Dynamic island
+  ctx.fillStyle = '#000';
+  const dw = 90 * SCALE, dh = 26 * SCALE;
+  const dx = OX + (W - dw) / 2, dy = OY + 16 * SCALE;
+  rrPath(ctx, dx, dy, dw, dh, dh / 2);
+  ctx.fill();
+
+  // Side volume buttons
+  ctx.fillStyle = '#2a2a2c';
+  ctx.fillRect(OX - 3 * SCALE, OY + 160 * SCALE, 4 * SCALE, 36 * SCALE);
+  ctx.fillRect(OX - 3 * SCALE, OY + 210 * SCALE, 4 * SCALE, 60 * SCALE);
+  ctx.fillRect(OX - 3 * SCALE, OY + 285 * SCALE, 4 * SCALE, 60 * SCALE);
+  // Power button
+  ctx.fillRect(OX + W - 1 * SCALE, OY + 190 * SCALE, 4 * SCALE, 80 * SCALE);
+
+  // Screen gloss
+  const gloss = ctx.createLinearGradient(sx, sy, sx, sy + sh * 0.3);
+  gloss.addColorStop(0, 'rgba(255,255,255,0.07)');
+  gloss.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.save();
+  rrPath(ctx, sx, sy, sw, sh, sr);
+  ctx.clip();
+  ctx.fillStyle = gloss;
+  ctx.fillRect(sx, sy, sw, sh * 0.3);
+  ctx.restore();
+
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+function rrPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
+function loadImg(src: string): Promise<HTMLImageElement> {
+  return new Promise((res, rej) => {
+    const img = new window.Image();
+    img.onload = () => res(img);
+    img.onerror = rej;
+    img.src = src;
+  });
+}
+
 // ─── Copy image to clipboard ──────────────────────────────────────────────────
 async function copyAdImage(adEl: HTMLElement) {
   const { toPng } = await import('html-to-image');
@@ -437,6 +540,7 @@ export default function AdCard({ template }: Props) {
   const [copied, setCopied] = useState(false);
   const [imgCopied, setImgCopied] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   const downloadFlat = async () => {
     if (!adRef.current) return;
@@ -446,6 +550,13 @@ export default function AdCard({ template }: Props) {
     a.download = `clientin-${template.id}.png`;
     a.href = dataUrl;
     a.click();
+  };
+
+  const downloadPhone = async () => {
+    if (!adRef.current) return;
+    setExporting(true);
+    try { await exportWithPhoneFrame(adRef.current, `clientin-${template.id}-phone.png`); }
+    finally { setExporting(false); }
   };
 
   const copyCaption = async () => {
@@ -534,13 +645,21 @@ export default function AdCard({ template }: Props) {
                 </button>
 
                 {/* Download flat PNG */}
-                <button onClick={downloadFlat}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition-all flex-1">
-                  <Download size={11} /> PNG
+                <button onClick={downloadFlat} disabled={exporting}
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition-all disabled:opacity-60 flex-1">
+                  <Download size={11} /> {exporting ? '…' : 'PNG'}
                 </button>
               </>
             )}
           </div>
+
+          {/* Phone frame export — always visible row (important on mobile where hover doesn't exist) */}
+          {!isAnimation && (
+            <button onClick={downloadPhone} disabled={exporting}
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/4 border border-white/8 text-white/40 hover:text-white hover:bg-white/8 text-xs font-semibold transition-all disabled:opacity-50">
+              📱 <span>Phone mockup export</span>
+            </button>
+          )}
         </div>
       </div>
     </>
