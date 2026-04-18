@@ -182,11 +182,3 @@ function HomeInner() {
     </div>
   );
 }
-
-export default function Home() {
-  return (
-    <Suspense>
-      <HomeInner />
-    </Suspense>
-  );
-}

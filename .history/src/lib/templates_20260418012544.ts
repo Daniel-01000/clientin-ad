@@ -550,181 +550,182 @@ Voiceover: "We built ClientIn to give local business owners what big brands alre
   },
 
   // ─────────────────────────────────────────────
-  // SOFT LAUNCH — STATIC (pre-launch teasers)
+  // SOFT LAUNCH — STATIC
   // ─────────────────────────────────────────────
   {
     id: 'sl1', category: 'soft-launch' as const, format: 'static' as const,
-    title: 'Paper Cards Are Dead',
-    headline: 'Paper cards\nbelong in\n2012.',
-    subheadline: 'Something better is coming. Stay tuned.',
-    caption: 'Seriously. Why is your favourite barbershop still handing out paper stamp cards in 2026?\n\nSomething\'s about to change. 👀 Follow to be first.\n\n#ComingSoon #LocalBusiness #LoyaltyApp',
-    cta: 'Coming soon',
-    layout: 'type-only',
+    title: 'Something New Is Here',
+    headline: 'We\'re\nlive.',
+    subheadline: 'ClientIn is now available — free to download on iOS.',
+    caption: 'We\'ve been quietly building something for local businesses and their customers. Today it\'s yours.\n\nDownload ClientIn — free on the App Store.\n\n#ClientIn #SoftLaunch #NowLive',
+    cta: 'Download Free',
+    screenshot: '/1.png',
+    layout: 'screenshot-right',
     accentColor: '#D97706',
     darkMode: true,
-    badge: '� COMING SOON',
+    badge: '🚀 NOW LIVE',
     platform: 'instagram',
   },
   {
     id: 'sl2', category: 'soft-launch' as const, format: 'static' as const,
-    title: 'Something Is Coming',
-    headline: 'Something\nis\ncoming.',
-    subheadline: 'Loyalty that actually works. Digital. Effortless. Free.',
-    caption: 'We\'ve been building quietly for 6 months.\n\nFollow to be first. 🧡\n\n#ClientIn #ComingSoon',
-    cta: 'Follow to be First',
-    layout: 'split-stat',
+    title: 'Early Access',
+    headline: 'You\'re\nearly.',
+    subheadline: 'Join the first wave of customers and businesses using ClientIn.',
+    caption: 'Early users get the full experience — free. No catch. Just loyalty, done right.\n\nTap the link to get started 👇\n\n#ClientIn #EarlyAccess #SoftLaunch',
+    cta: 'Join Early',
+    layout: 'type-only',
     accentColor: '#D97706',
     darkMode: true,
-    badge: '� COMING SOON',
-    stat: { value: '👀', label: 'something is coming' },
+    badge: 'EARLY ACCESS',
     platform: 'instagram',
   },
   {
     id: 'sl3', category: 'soft-launch' as const, format: 'static' as const,
-    title: 'Built Quietly',
-    headline: 'We\'ve been\nbuilding\nquietly.',
-    subheadline: '6 months of work. Coming soon. Free for every local business.',
-    caption: 'Didn\'t post much while we were building. That changes soon.\n\nFollow to see it first 👀\n\n#BuildInPublic #ClientIn #ComingSoon',
-    cta: 'Coming Soon',
+    title: 'Built Quietly. Launched Loudly.',
+    headline: 'Months of\nbuilding.\nOne big drop.',
+    subheadline: 'ClientIn — the loyalty platform for local businesses — is officially live.',
+    caption: 'We didn\'t talk much while we were building. Now we\'re live. Try it today — free for customers and business owners.\n\n#ClientIn #LaunchDay #BuildInPublic',
+    cta: 'Try It Free',
     layout: 'minimal-quote',
     accentColor: '#D97706',
     darkMode: true,
-    quote: 'We\'ve been building quietly. That changes soon.',
+    quote: 'Months of building. One big drop.',
     platform: 'twitter',
   },
   {
     id: 'sl4', category: 'soft-launch' as const, format: 'static' as const,
-    title: 'The Gap',
-    headline: 'Big brands\nhave loyalty\ntech.\nMost businesses\ndon\'t.',
-    subheadline: 'We\'re fixing that. Coming soon.',
-    caption: 'A coffee chain can tell you which customers haven\'t visited in 30 days and send them a nudge.\n\nMost businesses have a paper card in a drawer.\n\nThat imbalance ends soon. Free to start. 🧡\n\n#ClientIn #CustomerRetention #ComingSoon',
-    cta: 'Coming soon',
+    title: 'For the Regulars',
+    headline: 'The app\nthat turns\none-timers\ninto regulars.',
+    subheadline: 'Now live on iOS — free for every local business.',
+    caption: 'ClientIn helps barbershops, cafés, salons & restaurants turn first-time customers into loyal ones.\n\nJust launched. Try it free.\n\n#ClientIn #LocalBusiness #Loyalty',
+    cta: 'Get Started',
     screenshot: '/4.png',
     layout: 'screenshot-left',
     accentColor: '#D97706',
     darkMode: false,
-    badge: '👀 TEASER',
+    badge: '✦ JUST LAUNCHED',
+    stat: { value: 'FREE', label: 'to start' },
     platform: 'instagram',
   },
   {
     id: 'sl5', category: 'soft-launch' as const, format: 'static' as const,
-    title: 'Beta Feedback — Teaser',
-    headline: '"I didn\'t\nexpect it\nto work\nthis fast."',
-    subheadline: 'One of our beta testers. 12 customers on day one.',
-    caption: 'We\'ve been quietly testing with a handful of businesses.\n\nThe results? Better than we hoped.\n\nComing soon. Free to start.\n\n#ClientIn #BetaTesting #ComingSoon',
-    cta: 'Coming soon',
+    title: 'Soft Launch Testimonial',
+    headline: 'Our first\nbusiness owners\nlove it.',
+    subheadline: 'ClientIn is officially out of beta.',
+    caption: 'We tested quietly. The results were loud. ClientIn is now live.\n\n#ClientIn #BetaToLaunch #LocalFirst',
+    cta: 'Download Now',
     layout: 'testimonial',
     accentColor: '#D97706',
     darkMode: true,
-    badge: '🔒 BETA PREVIEW',
-    quote: 'I didn\'t expect it to work this fast. 12 customers on day one.',
-    attribution: 'Marcus T. — Business Owner (beta user)',
+    badge: '⭐ LAUNCH FEEDBACK',
+    quote: 'Set up in 10 minutes. Had 12 customers check in on day one. This is exactly what we needed.',
+    attribution: 'Marcus T. — Barbershop Owner',
     platform: 'instagram',
   },
   {
     id: 'sl6', category: 'soft-launch' as const, format: 'static' as const,
-    title: 'The Problem — Before / After',
-    headline: 'No system.\nNo data.\nNo way to\nbring them back.',
-    subheadline: 'That\'s what most local businesses are working with. We built the fix.',
-    caption: 'Most business owners have no idea which customers are drifting away.\n\nNo system. No data. No way to act.\n\nWe built the fix. Coming soon.\n\n#ClientIn #CustomerRetention #ComingSoon',
-    cta: 'Coming soon',
-    screenshot: '/5.png',
-    layout: 'before-after',
+    title: 'Launch Week Stats',
+    headline: 'Week 1\nnumbers\nhit different.',
+    subheadline: 'Businesses onboarded. Customers claimed their first rewards.',
+    caption: 'Launch week data is in — and local businesses are already seeing the difference.\n\nClientIn. Now live and free to start.\n\n#ClientIn #LaunchWeek #LocalBusiness',
+    cta: 'Join Now',
+    layout: 'split-stat',
     accentColor: '#D97706',
     darkMode: true,
-    badge: '📊 THE PROBLEM',
+    badge: '📊 WEEK 1',
+    stat: { value: 'Day 1', label: 'and already growing' },
     platform: 'linkedin',
   },
 
   // ─────────────────────────────────────────────
-  // SOFT LAUNCH — ANIMATION CLIPS (pre-launch)
+  // SOFT LAUNCH — ANIMATION CLIPS
   // ─────────────────────────────────────────────
   {
     id: 'sla1', category: 'soft-launch' as const, format: 'animation-clip' as const,
-    title: 'Paper Card Reel — Week 1',
-    headline: 'How many\nloyalty cards\nhave you lost?',
-    subheadline: 'Week 1 teaser — no product reveal. Just the pain point.',
-    caption: 'You got stamped 8 times. Then it went through the wash. Then you started over.\n\nSomething\'s coming that fixes this. 👀\n\n#LoyaltyCard #LocalBusiness #ComingSoon',
-    cta: 'Something\'s Coming',
-    layout: 'type-only',
-    accentColor: '#D97706',
-    darkMode: true,
-    badge: '🎬 WEEK 1 REEL',
-    animationScript: `Scene 1 (0–2s): Hands fumbling through a wallet — paper loyalty cards falling out, crumpled, faded. No music, ambient sound only.
-Scene 2 (2–4s): Close-up of a paper stamp card: 8/10 stamps. Almost there.
-Scene 3 (4–5s): Card crumpled. Tossed in the bin. Satisfying crumple sound.
-Scene 4 (5–7s): Black screen. White text fades in: "How many this year?"
-Scene 5 (7–9s): Text: "There's a better way." Amber glow from behind.
-Scene 6 (9–10s): Single amber dot pulses. Text: "Coming soon." No logo yet — pure intrigue.`,
-    platform: 'instagram',
-  },
-  {
-    id: 'sla2', category: 'soft-launch' as const, format: 'animation-clip' as const,
-    title: 'App Teaser — 3 Second Look',
-    headline: 'Something\'s\ncoming.',
-    subheadline: 'Week 2 — first glimpse of the product. Blurred, fast, intriguing.',
-    caption: 'We\'ve been building for 6 months.\n\nHere\'s a 3-second look. �\n\nDropping Follow to be first.\n\n#ClientIn #ComingSoon #LoyaltyApp',
-    cta: 'Coming Soon',
+    title: 'We\'re Live — Reveal Reel',
+    headline: 'We\'re\nlive.',
+    subheadline: 'The soft launch reveal reel — 15 seconds of impact.',
+    caption: 'We\'re live. ClientIn — the loyalty app for local businesses — is now available for free on iOS 🚀\n\n#ClientIn #SoftLaunch #NowLive',
+    cta: 'Download Free',
     screenshot: '/1.png',
     layout: 'screenshot-bg',
     accentColor: '#D97706',
     darkMode: true,
-    badge: '🎬 WEEK 2 TEASER',
-    animationScript: `Scene 1 (0–2s): Black. Amber ambient glow builds slowly from centre. No text.
-Scene 2 (2–4s): Blurred phone screen — just shapes and amber colours. Not legible yet. 3 fast cuts.
-Scene 3 (4–5s): Single clear frame — ClientIn wallet with stamps. Then immediately blurred again.
-Scene 4 (5–7s): Text slides in from left: "6 months of work."
-Scene 5 (7–9s): Text: "Coming soon." Date pulses amber.
-Scene 6 (9–10s): "Follow to be first." Small amber dot. Fade to black.
-NOTE: Keep the product intentionally hard to read. Intrigue > clarity at this stage.`,
-    platform: 'tiktok',
+    badge: '🎬 LAUNCH REEL',
+    animationScript: `Scene 1 (0–2s): Pitch black. Silence. A single amber dot pulses in the centre.
+Scene 2 (2–4s): Dot expands — becomes the ClientIn logo. Clean white on amber. Sound: soft chime.
+Scene 3 (4–7s): Logo shrinks to top-left corner. Phone slides in — ClientIn welcome screen animates on.
+Scene 4 (7–10s): Rapid cuts (each 0.5s): Discover screen → Wallet filling with stamps → Dashboard → Reward unlocked notification.
+Scene 5 (10–13s): Slow zoom out on phone. Bold white text fades in: "We're live."
+Scene 6 (13–15s): Full amber screen. ClientIn logo centred. "Free on iOS. Download now." White CTA button pulses.`,
+    platform: 'instagram',
   },
   {
-    id: 'sla3', category: 'soft-launch' as const, format: 'animation-clip' as const,
-    title: 'Founder Story — Pre-Launch',
-    headline: 'Why we\nstarted\nbuilding.',
-    subheadline: 'Week 2 — raw founder story on LinkedIn / Instagram.',
-    caption: 'I watched a great local barber lose a regular customer and have no idea it happened.\n\nNot because of bad service. Because there was no system.\n\nSo we built one. Coming soon.\n\n#BuildInPublic #ClientIn #LocalBusiness #ComingSoon',
-    cta: 'Coming soon',
+    id: 'sla2', category: 'soft-launch' as const, format: 'animation-clip' as const,
+    title: 'Founder Launch Moment',
+    headline: 'We built\nthis for\nyou.',
+    subheadline: 'A raw, authentic 30-second founder soft-launch video.',
+    caption: 'We launched quietly today. Here\'s why we built ClientIn — and who it\'s for.\n\n#ClientIn #FounderMoment #SoftLaunch #BuildInPublic',
+    cta: 'Try It Free',
     layout: 'type-only',
     accentColor: '#D97706',
     darkMode: true,
     badge: '🎬 FOUNDER REEL',
-    animationScript: `[Founder to camera. Handheld. Natural lighting. No logo yet.]
+    animationScript: `[Founder, handheld camera, in a barbershop or café — real location]
 
-0–5s: Direct to camera. "6 months ago I watched a really good barber lose a regular customer. And he had no idea it happened."
+0–5s: [No music. Ambient sound.] "We launched today. Quietly. No big announcement."
 
-5–12s: "Not because of bad service. The guy just stopped coming back. And the barber had no system to notice, no way to reach out."
+5–12s: [Pan to local business owner at counter]
+"This is for them. The barber who's been open 8 years. The café that knows your order. The salon that remembers your name."
 
-12–20s: [Cut to B-roll: local barbershop, café, salon — customers being served, busy environments]
-Voiceover: "That gap felt wrong. Big brands have loyalty tech. Local businesses have a paper card."
+12–20s: [Back to founder, direct to camera]
+"They deserved a loyalty tool that actually works. Not a paper card. Not a generic app. Something built for local."
 
-20–25s: "So we built something. To level the playing field."
+20–25s: [Screen recording — ClientIn onboarding, 10-second setup]
+"It takes 10 minutes to set up. And it's completely free to start."
 
-25–28s: Black screen. Text: "Coming soon." Amber dot pulses.
-
-NOTE: No product reveal. No app name yet. Pure story and emotion.`,
+25–30s: [Logo card] "ClientIn. Now live. Free to download." Subtle amber glow on logo.`,
     platform: 'instagram',
   },
   {
+    id: 'sla3', category: 'soft-launch' as const, format: 'animation-clip' as const,
+    title: 'Customer POV — First Time',
+    headline: 'Your first\nClientIn\nexperience.',
+    subheadline: 'A customer-first soft launch story format.',
+    caption: 'POV: you just got 3 stamps at your fave café and didn\'t have to carry a card 📱✨\n\n#ClientIn #SoftLaunch #NowLive #LoyaltyApp',
+    cta: 'Download ClientIn',
+    screenshot: '/3.png',
+    layout: 'screenshot-bg',
+    accentColor: '#D97706',
+    darkMode: true,
+    badge: '🎬 STORY FORMAT',
+    animationScript: `Scene 1 (0–2s): Phone locked. Notification slides in: "ClientIn — 3 stamps collected at Java House ☕"
+Scene 2 (2–4s): Unlock animation. ClientIn wallet opens — card with 3 fresh stamps.
+Scene 3 (4–6s): Stamp counter animates: 3 → 4 → 5 → … building up. Satisfying pop sound on each stamp.
+Scene 4 (6–8s): Card flips: "7 of 10 — 3 more to go." Amber progress bar fills.
+Scene 5 (8–11s): Text slides in from left: "Never lose a stamp again." 
+Scene 6 (11–13s): White screen. ClientIn logo drops in. "Download free — just launched on iOS."
+Scene 7 (13–15s): App Store badge animates in. CTA: "Tap to download."`,
+    platform: 'tiktok',
+  },
+  {
     id: 'sla4', category: 'soft-launch' as const, format: 'animation-clip' as const,
-    title: 'Beta POV — Week 3 Social Proof',
-    headline: 'We gave\n3 businesses\nearly access.',
-    subheadline: 'Week 3 — show real beta results without giving everything away.',
-    caption: 'We\'ve been running a quiet beta with a handful of businesses.\n\n247 customers. 75% repeat rate. 18 check-ins today.\n\nComing soon — free to start. Follow to be first 🧡\n\n#ClientIn #BetaTest #ComingSoon',
-    cta: 'Coming soon',
+    title: 'Before & After — Business Owner',
+    headline: 'Before\nClientIn.\nAfter.',
+    subheadline: 'The 20-second business owner transformation story.',
+    caption: 'Before ClientIn: no idea who your regulars are. After: 247 customers, 75% return rate, and you\'re growing 📈\n\n#ClientIn #SoftLaunch #LocalBusiness #CustomerRetention',
+    cta: 'Get Started Free',
     screenshot: '/5.png',
     layout: 'before-after',
     accentColor: '#D97706',
     darkMode: true,
-    badge: '🎬 WEEK 3 PROOF',
-    animationScript: `Scene 1 (0–2s): Text: "We gave 3 businesses early access." White on black. Clean.
-Scene 2 (2–5s): Screen recording of the ClientIn dashboard — numbers ticking: 247 customers, 75% repeat rate. Amber highlights.
-Scene 3 (5–7s): Business owner reacts to dashboard on their phone. Natural, genuine reaction. "Wait, that's this month?"
-Scene 4 (7–9s): Text overlay: "Set up in 10 minutes. Free to start."
-Scene 5 (9–11s): Pull back — phone in hand, business setting visible.
-Scene 6 (11–13s): Text: "Coming soon. Free for every local business." Amber glow.
-Scene 7 (13–15s): "Follow to be first." Small amber dot pulse. Fade to black.`,
+    badge: '🎬 BEFORE / AFTER',
+    animationScript: `Scene 1 (0–3s): Split screen. Left: empty notebook — "Tracking customers: ???". Right: ClientIn dashboard — 247 customers.
+Scene 2 (3–5s): Left side dims to grey. Right side brightens — amber tones. Text: "Before ClientIn. After ClientIn."
+Scene 3 (5–8s): Zoom into dashboard — "75% repeat rate", "+9.9% visits this month", "12 customers need attention."
+Scene 4 (8–12s): Business owner at register — smiles at customer, doesn't say anything. Tap on phone. Stamp added silently.
+Scene 5 (12–16s): Text overlay: "Set up in 10 minutes. Works without lifting a finger."
+Scene 6 (16–20s): Amber background. ClientIn logo. "Now live — free for every local business."`,
     platform: 'instagram',
   },
 ];

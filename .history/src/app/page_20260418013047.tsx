@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useMemo } from 'react';
 import { Sparkles, Download, Film, ImageIcon, Map } from 'lucide-react';
 import { clsx } from 'clsx';
 import Link from 'next/link';
@@ -9,18 +8,10 @@ import type { AdCategory } from '@/types';
 import { AD_TEMPLATES, CATEGORIES, PLATFORM_FILTERS, FORMAT_FILTERS } from '@/lib/templates';
 import AdCard from '@/components/AdCard';
 
-function HomeInner() {
-  const searchParams = useSearchParams();
-  const initialCategory = (searchParams.get('category') as AdCategory | 'all') ?? 'all';
-
-  const [activeCategory, setActiveCategory] = useState<AdCategory | 'all'>(initialCategory);
+export default function Home() {
+  const [activeCategory, setActiveCategory] = useState<AdCategory | 'all'>('all');
   const [activePlatform, setActivePlatform] = useState('all');
   const [activeFormat, setActiveFormat] = useState('all');
-
-  useEffect(() => {
-    const cat = searchParams.get('category') as AdCategory | null;
-    if (cat) setActiveCategory(cat);
-  }, [searchParams]);
 
   const filtered = useMemo(() =>
     AD_TEMPLATES.filter((t) =>
@@ -180,13 +171,5 @@ function HomeInner() {
         )}
       </div>
     </div>
-  );
-}
-
-export default function Home() {
-  return (
-    <Suspense>
-      <HomeInner />
-    </Suspense>
   );
 }

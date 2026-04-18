@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useMemo } from 'react';
 import { Sparkles, Download, Film, ImageIcon, Map } from 'lucide-react';
 import { clsx } from 'clsx';
 import Link from 'next/link';
@@ -9,18 +8,10 @@ import type { AdCategory } from '@/types';
 import { AD_TEMPLATES, CATEGORIES, PLATFORM_FILTERS, FORMAT_FILTERS } from '@/lib/templates';
 import AdCard from '@/components/AdCard';
 
-function HomeInner() {
-  const searchParams = useSearchParams();
-  const initialCategory = (searchParams.get('category') as AdCategory | 'all') ?? 'all';
-
-  const [activeCategory, setActiveCategory] = useState<AdCategory | 'all'>(initialCategory);
+export default function Home() {
+  const [activeCategory, setActiveCategory] = useState<AdCategory | 'all'>('all');
   const [activePlatform, setActivePlatform] = useState('all');
   const [activeFormat, setActiveFormat] = useState('all');
-
-  useEffect(() => {
-    const cat = searchParams.get('category') as AdCategory | null;
-    if (cat) setActiveCategory(cat);
-  }, [searchParams]);
 
   const filtered = useMemo(() =>
     AD_TEMPLATES.filter((t) =>
@@ -63,12 +54,6 @@ function HomeInner() {
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-white/25 hidden sm:block">{filtered.length} ads</span>
-            <Link href="/campaign"
-              className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-amber-500/10 border border-amber-500/25 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-xl transition-all">
-              <Map size={11} />
-              <span className="hidden sm:inline">Campaign Plan</span>
-              <span className="sm:hidden">Plan</span>
-            </Link>
             {staticCount > 0 && (
               <button onClick={downloadAllStatic}
                 className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/6 border border-white/10 hover:bg-white/10 text-white/60 hover:text-white text-xs font-semibold rounded-xl transition-all">
@@ -180,13 +165,5 @@ function HomeInner() {
         )}
       </div>
     </div>
-  );
-}
-
-export default function Home() {
-  return (
-    <Suspense>
-      <HomeInner />
-    </Suspense>
   );
 }

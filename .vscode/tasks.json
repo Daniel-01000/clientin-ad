@@ -4,7 +4,7 @@
 		{
 			"label": "Start Dev Server",
 			"type": "shell",
-			"command": "node node_modules/next/dist/bin/next dev --turbopack",
+			"command": "node node_modules/next/dist/bin/next dev --turbopack -p 3001",
 			"group": "build",
 			"isBackground": true,
 			"problemMatcher": [

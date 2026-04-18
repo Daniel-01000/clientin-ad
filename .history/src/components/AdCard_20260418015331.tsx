@@ -144,6 +144,31 @@ function AnimPaperVsDigital({ template }: { template: AdTemplate }) {
   );
 }
 
+      {/* Phase 2: Digital wallet */}
+      {phase === 2 && (
+        <div style={{ textAlign: 'center', animation: 'slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1)' }}>
+          <div style={{ width: 200, background: '#1a1a1a', border: `2px solid ${template.accentColor}40`, borderRadius: 20, margin: '0 auto 20px', padding: '16px 20px' }}>
+            <div style={{ fontSize: 10, color: template.accentColor, fontWeight: 800, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 10 }}>ClientIn Wallet</div>
+            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} style={{ width: 22, height: 22, borderRadius: 6, background: template.accentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, boxShadow: `0 0 8px ${template.accentColor}60` }}>✦</div>
+              ))}
+            </div>
+            <div style={{ marginTop: 10, fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>10/10 · Reward ready 🎉</div>
+          </div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Always with you.</div>
+        </div>
+      )}
+
+      <div style={{ position: 'absolute', bottom: 24, left: 0, right: 0, display: 'flex', justifyContent: 'center' }}>
+        <CTAButton text={template.cta} accent={template.accentColor} />
+      </div>
+
+      <style>{`@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}`}</style>
+    </div>
+  );
+}
+
 // Dashboard stat counter ticking up
 function AnimDashboardReveal({ template }: { template: AdTemplate }) {
   const [tick, setTick] = useState(0);
@@ -380,235 +405,6 @@ function parseScenes(script: string): string[] {
 // keep parseScenes available for any future use
 void parseScenes;
 
-// ─── Soft-launch animated components ─────────────────────────────────────────
-
-// sla1: Paper card pain point — stamps fill then card is "lost"
-function AnimPaperCardPain({ template }: { template: AdTemplate }) {
-  const [phase, setPhase] = useState(0); // 0: fill, 1: bin, 2: reset question
-  const [filled, setFilled] = useState(0);
-
-  useEffect(() => {
-    if (phase === 0) {
-      let i = 0;
-      const fill = () => {
-        i++;
-        setFilled(i);
-        if (i < 8) setTimeout(fill, 220);
-        else setTimeout(() => setPhase(1), 800);
-      };
-      setTimeout(fill, 600);
-    } else if (phase === 1) {
-      const t = setTimeout(() => setPhase(2), 2200);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => { setFilled(0); setPhase(0); }, 2800);
-      return () => clearTimeout(t);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
-
-  return (
-    <div style={{ width: '100%', height: '100%', background: '#080808', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10%', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: '-20%', left: '50%', transform: 'translateX(-50%)', width: '60%', height: '60%', background: template.accentColor, filter: 'blur(90px)', opacity: phase === 2 ? 0.12 : 0.04, borderRadius: '50%', transition: 'opacity 1s ease' }} />
-      <Logo accent={template.accentColor} />
-
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
-        {/* Paper loyalty card */}
-        <div style={{
-          width: '85%', background: '#141414', border: '1.5px dashed rgba(255,255,255,0.1)',
-          borderRadius: 14, padding: '18px 20px',
-          opacity: phase === 1 ? 0.3 : 1,
-          transform: phase === 1 ? 'translateY(12px) rotate(3deg) scale(0.95)' : 'none',
-          transition: 'opacity 0.5s ease, transform 0.5s ease',
-        }}>
-          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: 2, color: 'rgba(255,255,255,0.18)', textTransform: 'uppercase', marginBottom: 12 }}>Paper Loyalty Card</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 5 }}>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} style={{
-                aspectRatio: '1', borderRadius: 6,
-                background: i < filled ? 'rgba(255,255,255,0.2)' : 'transparent',
-                border: `1px solid ${i < filled ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)'}`,
-                transition: 'background 0.2s, border-color 0.2s',
-              }} />
-            ))}
-          </div>
-          <div style={{ marginTop: 10, fontSize: 10, color: 'rgba(255,255,255,0.18)', textDecoration: phase === 1 ? 'line-through' : 'none', transition: 'text-decoration 0.3s' }}>
-            {filled} / 8 stamps
-          </div>
-        </div>
-
-        {/* Phase overlays */}
-        <div style={{ height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {phase === 1 && (
-            <div style={{ animation: 'slFadeUp 0.4s ease', fontSize: 13, color: 'rgba(255,255,255,0.25)', fontStyle: 'italic' }}>
-              ...went through the wash. 🗑️
-            </div>
-          )}
-          {phase === 2 && (
-            <div style={{ animation: 'slFadeUp 0.4s ease', textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', letterSpacing: -0.5, lineHeight: 1.2 }}>How many this year?</div>
-              <div style={{ fontSize: 11, color: template.accentColor, marginTop: 6, fontWeight: 600, letterSpacing: 0.5 }}>Something&#39;s coming. 👀</div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <CTAButton text={template.cta} accent={template.accentColor} />
-      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
-    </div>
-  );
-}
-
-// sla2: App teaser — blurred reveal
-function AnimAppTeaser({ template }: { template: AdTemplate }) {
-  const [phase, setPhase] = useState(0); // 0: dark, 1: blurred glimpse, 2: text
-  useEffect(() => {
-    const delays = [1800, 2600, 3000];
-    const t = setTimeout(() => setPhase(p => (p + 1) % 3), delays[phase]);
-    return () => clearTimeout(t);
-  }, [phase]);
-
-  return (
-    <div style={{ width: '100%', height: '100%', background: '#080808', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '10%' }}>
-      {/* Ambient glow */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '80%', height: '80%', background: template.accentColor, filter: 'blur(120px)', opacity: phase >= 1 ? 0.15 : 0.04, borderRadius: '50%', transition: 'opacity 1.2s ease' }} />
-
-      <div style={{ position: 'absolute', top: 24, left: 24 }}><Logo accent={template.accentColor} /></div>
-
-      {/* Blurred phone preview */}
-      <div style={{
-        width: '45%', aspectRatio: '9/19', borderRadius: 22, overflow: 'hidden',
-        opacity: phase === 1 ? 0.7 : 0,
-        filter: 'blur(8px) saturate(1.5)',
-        transform: phase === 1 ? 'scale(1)' : 'scale(0.92)',
-        transition: 'opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease',
-        background: `linear-gradient(135deg, ${template.accentColor}30, #1a1a1a)`,
-        border: `1px solid ${template.accentColor}20`,
-        boxShadow: `0 0 60px ${template.accentColor}30`,
-        marginBottom: 28,
-      }}>
-        <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', padding: '20%', gap: 10 }}>
-          {[80, 55, 70, 40, 65].map((w, i) => (
-            <div key={i} style={{ height: 8, width: `${w}%`, background: i === 0 ? template.accentColor : 'rgba(255,255,255,0.15)', borderRadius: 4 }} />
-          ))}
-        </div>
-      </div>
-
-      {phase !== 1 && (
-        <div key={phase} style={{ textAlign: 'center', animation: 'slFadeUp 0.5s ease' }}>
-          {phase === 0 ? (
-            <>
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', marginBottom: 12 }}>6 months of work</div>
-              <div style={{ fontSize: 28, fontWeight: 900, color: '#fff', letterSpacing: -0.8, lineHeight: 1.15 }}>Something&#39;s<br />coming.</div>
-            </>
-          ) : (
-            <>
-              <div style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: -0.5, lineHeight: 1.2, marginBottom: 8 }}>Follow to<br />be first.</div>
-              <div style={{ fontSize: 11, color: template.accentColor, fontWeight: 700, letterSpacing: 1 }}>Coming soon →</div>
-            </>
-          )}
-        </div>
-      )}
-
-      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
-    </div>
-  );
-}
-
-// sla3: Founder story — line-by-line reveal
-function AnimFounderPreLaunch({ template }: { template: AdTemplate }) {
-  const lines = [
-    'We watched a great local business\nlose a customer they didn\'t know they lost.',
-    'Not bad service.\nNo system to bring them back.',
-    'Big brands have tech\nthat costs tens of thousands.',
-    'Local businesses have\na paper stamp card.',
-    'That gap felt wrong.\n\nSo we built something.',
-  ];
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const t = setTimeout(() => setIdx(i => (i + 1) % lines.length), 2600);
-    return () => clearTimeout(t);
-  }, [idx, lines.length]);
-
-  return (
-    <div style={{ width: '100%', height: '100%', background: '#070707', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10%', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: '-20%', left: '-10%', width: '60%', height: '60%', background: template.accentColor, filter: 'blur(90px)', opacity: 0.08, borderRadius: '50%' }} />
-      <Logo accent={template.accentColor} />
-
-      <div key={idx} style={{ animation: 'slFadeUp 0.45s ease' }}>
-        <div style={{ width: 36, height: 3, background: template.accentColor, borderRadius: 2, marginBottom: 22 }} />
-        <div style={{ fontSize: 'clamp(20px, 5vw, 32px)', fontWeight: 800, color: '#fff', lineHeight: 1.3, letterSpacing: -0.4, whiteSpace: 'pre-line', fontStyle: 'italic' }}>
-          &quot;{lines[idx]}&quot;
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <div style={{ display: 'flex', gap: 5 }}>
-          {lines.map((_, i) => <div key={i} style={{ height: 3, flex: i === idx ? 2 : 1, borderRadius: 2, background: i === idx ? template.accentColor : 'rgba(255,255,255,0.1)', transition: 'all 0.3s ease' }} />)}
-        </div>
-        <CTAButton text={template.cta} accent={template.accentColor} />
-      </div>
-      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}`}</style>
-    </div>
-  );
-}
-
-// sla4: Beta proof — dashboard numbers reveal
-function AnimBetaProof({ template }: { template: AdTemplate }) {
-  const [tick, setTick] = useState(0);
-  const [phase, setPhase] = useState(0);
-  useEffect(() => {
-    if (phase === 0) {
-      const t = setInterval(() => setTick(v => {
-        if (v >= 100) { clearInterval(t); setTimeout(() => setPhase(1), 500); return 100; }
-        return v + 2;
-      }), 22);
-      return () => clearInterval(t);
-    } else {
-      const t = setTimeout(() => { setTick(0); setPhase(0); }, 3200);
-      return () => clearTimeout(t);
-    }
-  }, [phase]);
-
-  const customers = Math.round(tick * 2.47);
-  const repeatRate = Math.round(tick * 0.75);
-
-  return (
-    <div style={{ width: '100%', height: '100%', background: '#090909', display: 'flex', flexDirection: 'column', padding: '9%', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: 0, right: '-10%', width: '55%', height: '55%', background: template.accentColor, filter: 'blur(80px)', opacity: 0.1, borderRadius: '50%' }} />
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'auto' }}>
-        <Logo accent={template.accentColor} />
-        <Badge text="BETA RESULTS" accent={template.accentColor} />
-      </div>
-
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 12 }}>
-        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 4 }}>3 businesses · early access</div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <div style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '14px 16px' }}>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', fontWeight: 600, marginBottom: 4 }}>Customers</div>
-            <div style={{ fontSize: 32, fontWeight: 900, color: '#fff', letterSpacing: -1, lineHeight: 1 }}>{customers}</div>
-          </div>
-          <div style={{ flex: 1, background: 'rgba(255,255,255,0.04)', border: `1px solid ${template.accentColor}30`, borderRadius: 14, padding: '14px 16px' }}>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', fontWeight: 600, marginBottom: 4 }}>Repeat Rate</div>
-            <div style={{ fontSize: 32, fontWeight: 900, color: template.accentColor, letterSpacing: -1, lineHeight: 1 }}>{repeatRate}%</div>
-          </div>
-        </div>
-
-        {phase === 1 && (
-          <div style={{ animation: 'slFadeUp 0.4s ease', background: `${template.accentColor}10`, border: `1px solid ${template.accentColor}25`, borderRadius: 12, padding: '12px 14px' }}>
-            <div style={{ fontSize: 12, color: template.accentColor, fontWeight: 700 }}>📈 Free to start · Set up in 10 min</div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 3 }}>Coming soon · Follow to be first</div>
-          </div>
-        )}
-      </div>
-
-      <CTAButton text={template.cta} accent={template.accentColor} />
-      <style>{`@keyframes slFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}`}</style>
-    </div>
-  );
-}
-
 // ─── Ad canvas router ────────────────────────────────────────────────────────
 function AdCanvas({ template }: { template: AdTemplate }) {
   const lines = template.headline.split('\n');
@@ -622,10 +418,6 @@ function AdCanvas({ template }: { template: AdTemplate }) {
     if (template.id === 'la1') return <AnimAppIntro template={template} />;
     if (template.id === 'la2') return <AnimProblemSolution template={template} />;
     if (template.id === 'la3') return <AnimFounderStory template={template} />;
-    if (template.id === 'sla1') return <AnimPaperCardPain template={template} />;
-    if (template.id === 'sla2') return <AnimAppTeaser template={template} />;
-    if (template.id === 'sla3') return <AnimFounderPreLaunch template={template} />;
-    if (template.id === 'sla4') return <AnimBetaProof template={template} />;
     // fallback
     return <AnimStampCounter template={template} />;
   }
