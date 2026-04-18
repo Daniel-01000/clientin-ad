@@ -728,7 +728,6 @@ Scene 5 (12–16s): Text overlay: "Set up in 10 minutes. Works without lifting a
 Scene 6 (16–20s): Amber background. ClientIn logo. "Now live — free for every local business."`,
     platform: 'instagram',
   },
-];
 
 export const CATEGORIES = [
   { id: 'customer' as const, label: 'Customer', emoji: '👤', desc: 'Ads that speak to customers — rewards, discovery, wallet' },
