@@ -25,7 +25,7 @@ export default function Home() {
     for (const t of statics) {
       const el = document.querySelector<HTMLElement>(`[data-ad-id="${t.id}"]`);
       if (!el) continue;
-      const dataUrl = await toPng(el, { pixelRatio: 3, cacheBust: true, backgroundColor: '#0a0a0a' });
+      const dataUrl = await toPng(el, { pixelRatio: 3, cacheBust: true });
       const a = document.createElement('a');
       a.download = `clientin-${t.id}.png`;
       a.href = dataUrl;
