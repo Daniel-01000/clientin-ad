@@ -16,17 +16,7 @@ interface Props { template: AdTemplate }
 // ─── Copy image to clipboard ──────────────────────────────────────────────────
 async function copyAdImage(adEl: HTMLElement) {
   const { toPng } = await import('html-to-image');
-  const size = 1080;
-  const dataUrl = await toPng(adEl, {
-    width: size,
-    height: size,
-    canvasWidth: size,
-    canvasHeight: size,
-    pixelRatio: 1,
-    cacheBust: true,
-    backgroundColor: '#0a0a0a',
-    style: { transform: 'none', borderRadius: '0' },
-  });
+  const dataUrl = await toPng(adEl, { pixelRatio: 2, cacheBust: true, backgroundColor: '#0a0a0a' });
   const res = await fetch(dataUrl);
   const blob = await res.blob();
   await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
@@ -733,7 +723,7 @@ export default function AdCard({ template }: Props) {
             ref={adRef}
             data-ad-id={template.id}
             className="relative w-full overflow-hidden select-none"
-            style={{ aspectRatio: '1 / 1', fontFamily: "'Inter', system-ui, -apple-system, sans-serif", minWidth: 0, minHeight: 0 }}
+            style={{ aspectRatio: '1/1', fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
           >
             <AdCanvas template={template} />
           </div>

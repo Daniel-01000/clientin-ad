@@ -733,7 +733,7 @@ export default function AdCard({ template }: Props) {
             ref={adRef}
             data-ad-id={template.id}
             className="relative w-full overflow-hidden select-none"
-            style={{ aspectRatio: '1 / 1', fontFamily: "'Inter', system-ui, -apple-system, sans-serif", minWidth: 0, minHeight: 0 }}
+            style={{ aspectRatio: '1/1', fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}
           >
             <AdCanvas template={template} />
           </div>
