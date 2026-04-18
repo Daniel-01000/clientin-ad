@@ -15,12 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ClientIn · Ad Maker",
   description: "Generate premium social media content and ads from your ClientIn app screenshots.",
-};
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  viewportFit: 'cover',
+  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
 };
 
 export default function RootLayout({
